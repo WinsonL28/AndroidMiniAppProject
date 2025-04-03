@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun mainContent() {2
+fun mainContent() {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { MyBottomNav(navController) }
@@ -43,7 +43,13 @@ fun mainContent() {2
         NavHost(navController, "home", modifier = Modifier.padding(padding)) {
             //destination 1
             composable("home") {
-                MyHome(navController)
+                Home(navController)
+            }
+            composable("fav") {
+                Fav(navController)
+            }
+            composable("history") {
+                History(navController)
             }
         }
 

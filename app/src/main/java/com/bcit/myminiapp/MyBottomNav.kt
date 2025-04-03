@@ -1,9 +1,9 @@
 package com.bcit.myminiapp
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -19,8 +19,8 @@ data class NavItem(val icon: ImageVector, val route: String)
 fun MyBottomNav(navController: NavController) {
     val navItems = listOf(
         NavItem(Icons.Default.Home, "home"),
-        NavItem(Icons.Default.Search, "search"),
-        NavItem(Icons.Default.Menu, "more"),
+        NavItem(Icons.Default.Favorite, "fav"),
+        NavItem(Icons.Default.DateRange, "history"),
     )
 
     NavigationBar {
