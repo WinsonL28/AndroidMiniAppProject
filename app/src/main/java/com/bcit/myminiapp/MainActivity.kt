@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -34,14 +35,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-
-            mainContent()
+            val studyState = StudyState(studyRepository)
+            LaunchedEffect(studyState) {
+                studyState.getStudies()
+            }
+            MainContent(studyState)
         }
     }
 }
 
 @Composable
-fun mainContent() {
+fun MainContent(studyState: StudyState) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { MyBottomNav(navController) }
@@ -49,7 +53,7 @@ fun mainContent() {
         NavHost(navController, "home", modifier = Modifier.padding(padding)) {
             //destination 1
             composable("home") {
-                Home(navController)
+                Home(navController, studyState)
             }
             composable("fav") {
                 Fav(navController)
