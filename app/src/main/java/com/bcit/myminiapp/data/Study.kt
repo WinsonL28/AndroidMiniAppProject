@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 
 // Root data class
-data class ProtocolSection(
+data class Study(
     @SerializedName("identificationModule")
     val identificationModule: IdentificationModule,
     @SerializedName("statusModule")
@@ -67,3 +67,4 @@ data class DescriptionModule(
     @SerializedName("briefSummary") val briefSummary: String,
     @SerializedName("detailedDescription") val detailedDescription: String
 )
+

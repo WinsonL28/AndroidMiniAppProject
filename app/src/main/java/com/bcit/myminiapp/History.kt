@@ -1,5 +1,6 @@
 package com.bcit.myminiapp
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 
@@ -10,5 +11,5 @@ fun History(navController: NavController) {
 
 @Composable
 fun HistoryContent() {
-
+    Text("history")
 }

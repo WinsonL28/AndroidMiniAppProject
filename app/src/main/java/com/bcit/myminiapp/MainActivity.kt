@@ -12,9 +12,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.bcit.myminiapp.data.MyDatabase
+import com.bcit.myminiapp.data.StudyRepository
 import com.bcit.myminiapp.data.UserRepository
+import com.bcit.myminiapp.data.client
 
 class MainActivity : ComponentActivity() {
+
+    private val studyRepository by lazy {
+        StudyRepository(client)
+    }
 
     private val db by lazy {
         MyDatabase.getDatbase(applicationContext)
@@ -48,6 +54,10 @@ fun mainContent() {
             composable("fav") {
                 Fav(navController)
             }
+            composable("info/{id}") {
+                Info(navController)
+            }
+
             composable("history") {
                 History(navController)
             }
