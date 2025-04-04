@@ -2,7 +2,6 @@ package com.bcit.myminiapp
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -19,7 +18,7 @@ data class NavItem(val icon: ImageVector, val route: String)
 fun MyBottomNav(navController: NavController) {
     val navItems = listOf(
         NavItem(Icons.Default.Home, "home"),
-        NavItem(Icons.Default.Favorite, "fav"),
+//        NavItem(Icons.Default.Favorite, "fav"),
         NavItem(Icons.Default.DateRange, "history"),
     )
 

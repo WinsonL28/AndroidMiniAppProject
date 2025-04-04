@@ -55,9 +55,9 @@ fun MainContent(studyState: StudyState) {
             composable("home") {
                 Home(navController, studyState)
             }
-            composable("fav") {
-                Fav(navController)
-            }
+//            composable("fav") {
+//                Fav(navController)
+//            }
             composable("info/{id}") {
                 Info(navController)
             }
