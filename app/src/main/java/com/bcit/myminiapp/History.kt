@@ -6,10 +6,6 @@ import androidx.navigation.NavController
 
 @Composable
 fun History(navController: NavController) {
-    HistoryContent()
+
 }
 
-@Composable
-fun HistoryContent() {
-    Text("history")
-}

@@ -20,4 +20,16 @@ class StudyRepository(private val httpClient: HttpClient) {
         return studyResponse.studies
     }
 
+    suspend fun getStudy(studyId: String): Study {
+        val response = httpClient.get(STUDY_URL.format(studyId))
+        val json = response.body<JsonObject>().toString()
+
+        // Deserialize using StudyResponse to properly extract "studies"
+        val studyResponse = Gson().fromJson(json, Study::class.java)
+        // Return the first study (assuming at least one exists)
+        Log.d("studyState", studyResponse.protocolSection.identificationModule?.id.toString())
+
+        return studyResponse
+    }
+
 }

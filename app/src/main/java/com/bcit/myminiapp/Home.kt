@@ -1,6 +1,7 @@
 package com.bcit.myminiapp
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,24 +20,26 @@ import com.bcit.myminiapp.data.Study
 import com.bcit.myminiapp.ui.theme.MyMiniAppTheme
 
 @Composable
-fun Home(navController: NavController, studyState: StudyState) {
-    val studies = studyState.studies ?: emptyList<Study>()  // List<Study>
+fun Home(navController: NavController, studiesState: StudiesState) {
+    val studies = studiesState.studies
 
 
     LazyColumn {
         items(studies.size) {
-            Card(studies[it])  // Assuming 'Card' can accept a Study object
+            Card(studies[it], navController)
         }
     }
 }
 
 
 @Composable
-fun Card(study: Study) {
+fun Card(study: Study, navController: NavController) {
+    val studyId = study.protocolSection.identificationModule?.id
     MyMiniAppTheme {
         Box(modifier = Modifier
             .padding(16.dp)
             .background(Color.LightGray, shape = RoundedCornerShape(16.dp))
+            .clickable { navController.navigate("info/$studyId") }
         ) {
             Column (modifier = Modifier.padding(15.dp,
                     )) {

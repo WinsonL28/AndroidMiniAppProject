@@ -35,17 +35,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val studyState = StudyState(studyRepository)
-            LaunchedEffect(studyState) {
-                studyState.getStudies()
+            val studiesState = StudiesState(studyRepository)
+            LaunchedEffect(studiesState) {
+                studiesState.getStudies()
             }
-            MainContent(studyState)
+            MainContent(studiesState, studyRepository)
+
         }
     }
 }
 
 @Composable
-fun MainContent(studyState: StudyState) {
+fun MainContent(studiesState: StudiesState, studyRepository: StudyRepository) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { MyBottomNav(navController) }
@@ -53,13 +54,20 @@ fun MainContent(studyState: StudyState) {
         NavHost(navController, "home", modifier = Modifier.padding(padding)) {
             //destination 1
             composable("home") {
-                Home(navController, studyState)
+                Home(navController, studiesState)
             }
 //            composable("fav") {
 //                Fav(navController)
 //            }
-            composable("info/{id}") {
-                Info(navController)
+            composable("info/{id}") { backStackEntry ->
+                val id = backStackEntry.arguments?.getString("id")
+                val studyState = StudyState(studyRepository)
+                LaunchedEffect(studyState) {
+                    if (id != null) {
+                        studyState.getStudy(id)
+                    }
+                }
+                Info(studyState)
             }
 
             composable("history") {
