@@ -73,24 +73,21 @@ fun MainContent(
                 Home(navController, studiesState)
             }
             composable("info/{id}/{title}") { backStackEntry ->
-                val id = backStackEntry.arguments?.getString("id")
+                val id = backStackEntry.arguments?.getString("id") ?: "0"
                 val title = backStackEntry.arguments?.getString("title")
                 val studyState = StudyState(studyRepository)
                 var isLoaded by remember { mutableStateOf(false) }
                 historyRepo.addStudyToHistory(id.toString(), title.toString())
                 LaunchedEffect(studyState) {
-                    if (id != null) {
-                        studyState.getStudy(id)
-                    }
-                    isLoaded = true
+                    studyState.getStudy(id)
                 }
-                if (isLoaded == true) {
-                    Info(studyState)
-
-                }
+                Info(studyState)
             }
 
             composable("history") {
+                LaunchedEffect(historyState) {
+                    historyState.refresh()
+                }
                 History(navController, historyState)
             }
         }
