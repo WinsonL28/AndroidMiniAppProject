@@ -1,36 +1,39 @@
 package com.bcit.myminiapp.data
 
 import android.content.Context
-import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Entity
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Entity(tableName = "user_table")
-data class LocalUser(
-    @PrimaryKey(autoGenerate = true) val uid: Int? = null,
-    @ColumnInfo(name = "user_name") val userName: String?,
-    val email: String?
+@Entity(tableName = "history")
+data class HistoryEntry(
+    @PrimaryKey val studyId: String, // Makes it unique!
+    val title: String,
+    val timestamp: Long
 )
 
 @Dao
-interface UserDao {
-    @Query("SELECT * FROM user_table")
-    fun getAll(): List<LocalUser>
+interface HistoryDao {
 
-    @Insert
-    fun add(user: LocalUser)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(entry: HistoryEntry)
 
+    @Query("SELECT * FROM history ORDER BY timestamp DESC")
+    suspend fun getAll(): List<HistoryEntry>
+
+    @Query("DELETE FROM history WHERE studyId NOT IN (SELECT studyId FROM history ORDER BY timestamp DESC LIMIT 50)")
+    suspend fun trimToLast50()
 }
 
-@Database(entities = [LocalUser::class], version = 1)
+@Database(entities = [HistoryEntry::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun userDao(): UserDao
+    abstract fun historyDao(): HistoryDao
 }
 
 //singleton pattern

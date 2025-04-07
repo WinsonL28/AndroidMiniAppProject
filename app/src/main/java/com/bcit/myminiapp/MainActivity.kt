@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.bcit.myminiapp.data.MyDatabase
 import com.bcit.myminiapp.data.StudyRepository
-import com.bcit.myminiapp.data.UserRepository
+import com.bcit.myminiapp.data.HistoryRepository
 import com.bcit.myminiapp.data.client
 
 class MainActivity : ComponentActivity() {
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private val userRepo by lazy {
-        UserRepository(db.userDao())
+        HistoryRepository(db.userDao())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -2,11 +2,11 @@ package com.bcit.myminiapp
 
 import androidx.compose.runtime.toMutableStateList
 import com.bcit.myminiapp.data.LocalUser
-import com.bcit.myminiapp.data.UserRepository
+import com.bcit.myminiapp.data.HistoryRepository
 
 //considered ui layer now
 
-class UsersState(private val repository: UserRepository) {
+class UsersState(private val repository: HistoryRepository) {
 
     var users = repository.getAll().toMutableStateList()
 
