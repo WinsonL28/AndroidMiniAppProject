@@ -22,13 +22,10 @@ data class HistoryEntry(
 interface HistoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(entry: HistoryEntry)
+    fun insert(entry: HistoryEntry)
 
     @Query("SELECT * FROM history ORDER BY timestamp DESC")
-    suspend fun getAll(): List<HistoryEntry>
-
-    @Query("DELETE FROM history WHERE studyId NOT IN (SELECT studyId FROM history ORDER BY timestamp DESC LIMIT 50)")
-    suspend fun trimToLast50()
+    fun getAll(): List<HistoryEntry>
 }
 
 @Database(entities = [HistoryEntry::class], version = 1)

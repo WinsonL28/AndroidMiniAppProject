@@ -51,11 +51,13 @@ fun Home(navController: NavController, studiesState: StudiesState) {
 @Composable
 fun Card(study: Study, navController: NavController) {
     val studyId = study.protocolSection.identificationModule?.id
+    val briefTitle = study.protocolSection.identificationModule?.briefTitle
     MyMiniAppTheme {
         Box(modifier = Modifier
-            .padding(16.dp)
+            .padding(horizontal = 20.dp)
+            .padding(vertical = 10.dp)
             .background(Color(0xFFADD8E6), shape = RoundedCornerShape(16.dp))
-            .clickable { navController.navigate("info/$studyId") }
+            .clickable { navController.navigate("info/$studyId/$briefTitle") }
         ) {
             Column (modifier = Modifier.padding(15.dp,
                     )) {

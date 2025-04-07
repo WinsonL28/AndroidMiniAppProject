@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.bcit.myminiapp.data.HistoryRepository
 import com.bcit.myminiapp.data.MyDatabase
 import com.bcit.myminiapp.data.StudyRepository
-import com.bcit.myminiapp.data.HistoryRepository
 import com.bcit.myminiapp.data.client
 
 class MainActivity : ComponentActivity() {
@@ -27,8 +27,8 @@ class MainActivity : ComponentActivity() {
         MyDatabase.getDatbase(applicationContext)
     }
 
-    private val userRepo by lazy {
-        HistoryRepository(db.userDao())
+    private val historyRepo by lazy {
+        HistoryRepository(db.historyDao())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,29 +39,32 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(studiesState) {
                 studiesState.getStudies()
             }
-            MainContent(studiesState, studyRepository)
+            val historyState = HistoryState(historyRepo)
+            LaunchedEffect(historyState) {
+                historyState.refresh()
+            }
+            MainContent(studiesState, studyRepository, historyState, historyRepo)
 
         }
     }
 }
 
 @Composable
-fun MainContent(studiesState: StudiesState, studyRepository: StudyRepository) {
+fun MainContent(studiesState: StudiesState, studyRepository: StudyRepository,
+                historyState: HistoryState, historyRepo: HistoryRepository) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { MyBottomNav(navController) }
     ) { padding ->
         NavHost(navController, "home", modifier = Modifier.padding(padding)) {
-            //destination 1
             composable("home") {
                 Home(navController, studiesState)
             }
-//            composable("fav") {
-//                Fav(navController)
-//            }
-            composable("info/{id}") { backStackEntry ->
+            composable("info/{id}/{title}") { backStackEntry ->
                 val id = backStackEntry.arguments?.getString("id")
+                val title = backStackEntry.arguments?.getString("title")
                 val studyState = StudyState(studyRepository)
+                historyRepo.addStudyToHistory(id.toString(), title.toString())
                 LaunchedEffect(studyState) {
                     if (id != null) {
                         studyState.getStudy(id)
@@ -71,7 +74,7 @@ fun MainContent(studiesState: StudiesState, studyRepository: StudyRepository) {
             }
 
             composable("history") {
-                History(navController)
+                History(navController, historyState)
             }
         }
 
