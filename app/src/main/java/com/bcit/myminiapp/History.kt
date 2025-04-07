@@ -34,7 +34,7 @@ fun History(navController: NavController, historyState: HistoryState) {
                 .padding(vertical = 5.dp)
         ) {
             Text(
-                text = "Trials History",
+                text = "Trial History",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -62,7 +62,7 @@ fun HistoryCard(historyEntry: HistoryEntry, navController: NavController) {
     val date = Date(timestamp)
 
     // Format the Date to a human-readable format
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val formattedDate = dateFormat.format(date)
     Box(
         modifier = Modifier
@@ -88,7 +88,7 @@ fun HistoryCard(historyEntry: HistoryEntry, navController: NavController) {
             )
             Spacer(modifier = Modifier.padding(5.dp))
             Text(
-                text = "Last Access :" + formattedDate,
+                text = "Last Access : $formattedDate",
                 textAlign = TextAlign.End,
                 modifier = Modifier.fillMaxWidth(),
                 fontSize = 12.sp

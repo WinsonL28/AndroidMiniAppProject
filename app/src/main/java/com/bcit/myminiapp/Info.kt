@@ -4,8 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
@@ -18,7 +17,6 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun Info(studyState: StudyState, ) {
-
     InfoCard(studyState)
 }
 
@@ -28,9 +26,7 @@ fun InfoCard(studyState: StudyState) {
 
     Box(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxHeight()
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(Color(0xFFFFF9C4))
     ) {
         LazyColumn(

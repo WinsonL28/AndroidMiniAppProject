@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,6 +20,7 @@ import com.bcit.myminiapp.data.HistoryRepository
 import com.bcit.myminiapp.data.MyDatabase
 import com.bcit.myminiapp.data.StudyRepository
 import com.bcit.myminiapp.data.client
+
 
 class MainActivity : ComponentActivity() {
 
@@ -50,8 +55,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainContent(studiesState: StudiesState, studyRepository: StudyRepository,
-                historyState: HistoryState, historyRepo: HistoryRepository) {
+fun MainContent(
+    studiesState: StudiesState, studyRepository: StudyRepository,
+    historyState: HistoryState, historyRepo: HistoryRepository
+) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { MyBottomNav(navController) }
@@ -64,13 +71,18 @@ fun MainContent(studiesState: StudiesState, studyRepository: StudyRepository,
                 val id = backStackEntry.arguments?.getString("id")
                 val title = backStackEntry.arguments?.getString("title")
                 val studyState = StudyState(studyRepository)
+                var isLoaded by remember { mutableStateOf(false) }
                 historyRepo.addStudyToHistory(id.toString(), title.toString())
                 LaunchedEffect(studyState) {
                     if (id != null) {
                         studyState.getStudy(id)
                     }
+                    isLoaded = true
                 }
-                Info(studyState)
+                if (isLoaded == true) {
+                    Info(studyState)
+
+                }
             }
 
             composable("history") {
