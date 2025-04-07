@@ -1,5 +1,10 @@
 package com.bcit.myminiapp
 
+/*
+    Winson Liang
+    A01387030
+ */
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
